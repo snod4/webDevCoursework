@@ -1,6 +1,7 @@
 const express = require("express");
 const https = require("https");
 const http = require("http");
+const fs = require("fs");
 const bodyParser = require("body-parser");
 const app = express();
 
@@ -11,9 +12,11 @@ app.get("/", function(req, res){
 
 });
 
+
+
 app.post("/", function(req, res){
   const query = req.body.cityName;
-  const apiKey = "1681ce71b13e340d5aa5a758ba9b93d9";
+  const apiKey = getApiKey();
   const url = "https://api.openweathermap.org/data/2.5/weather?q="+query+"&appid="+apiKey+"&units=imperial"
   https.get(url, function(response) {
     console.log(response.statusCode);
@@ -39,3 +42,12 @@ app.post("/", function(req, res){
 app.listen(3000, function() {
   console.log("Server running on port 3000");
 });
+
+
+function getApiKey(){
+  var key;
+  return fs.readFile(__dirname + "/ApiKey.txt", function(err, data){
+    key = data;
+  });
+  return key;
+}
