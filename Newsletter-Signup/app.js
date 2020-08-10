@@ -33,7 +33,7 @@ app.post("/", function(req, res){
   const url = "https://us17.api.mailchimp.com/3.0/lists/fb0b0758d5";
   const options = {
     method: "POST",
-    auth: "Chase1:3f21665e5509d8acafcff648104018ee-us17"
+    auth: "Chase1:" + getApiKey();
   };
 
   const request = https.request(url, options, function(response){
@@ -62,6 +62,14 @@ app.listen(process.env.PORT || 3000, function(){
   console.log("server is running on port 3000");
 });
 
-//API Key: 3f21665e5509d8acafcff648104018ee-us17
 
 //list Id: fb0b0758d5
+
+function getApiKey() {
+  console.log("getApiKey");
+  var key;
+  key = fs.readFileSync(__dirname + "/ApiKey.txt", function(err, data) {
+    if(err !== null){
+      console.log(err);
+    }
+  });
